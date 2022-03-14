@@ -8,6 +8,7 @@
 		<title>Connexion</title>
 	</head>
 	<body>
+	<c:import url="/WEB-INF/librairies/header.jsp"/>
 	<c:if test="${ !empty erreur }"><p style="color:red;"><c:out value="${ erreur }" /></p></c:if>
 	<c:if test ="${ empty form.resultat }">
 		<form method="post" action="<c:url value="${ConnexionServlet.CONNEXION_URL}"/>">
@@ -24,7 +25,7 @@
 		  	</div>
 		</form>
 	</c:if>
-	</body>
 	<c:if test ="${ !empty form.resultat }"><p><c:out value="${ form.resultat }"/> </p></c:if>
-	<a href="<c:url value="${AccueilServlet.ACCUEIL_URL}"/>">Retour à l'accueil</a>
+	<c:import url="/WEB-INF/librairies/footer.jsp"/>
+	</body>
 </html>
