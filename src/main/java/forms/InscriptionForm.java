@@ -30,15 +30,15 @@ public class InscriptionForm {
 			throw new BeanException("le pays ne doit pas dépasser 15 caractères.");
 		}
 		
-		Joueur joueur = new Joueur(nom,mdp,pays,0,0);
+		Joueur joueur = new Joueur(nom,mdp,pays,5000);
 		
 		try {
 			joueurDao.ajouter(joueur);
+			resultat = "vous êtes bien inscrits !";
 		} 
 		catch (Exception e) {
 				request.setAttribute("erreur", e.getMessage());
 		}
-		resultat = "vous êtes bien inscrits !";
 	}
 	
 	public String getResultat() {

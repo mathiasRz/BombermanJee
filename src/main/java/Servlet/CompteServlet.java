@@ -8,22 +8,20 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
-import bean.BeanException;
 import dao.DaoException;
 import dao.DaoFactory;
 import dao.JoueurDao;
-import forms.InscriptionForm;
 
 /**
- * Servlet implementation class InscriptionServlet
+ * Servlet implementation class CompteServlet
  */
-@WebServlet(InscriptionServlet.INSCRIPTION_URL)
-public class InscriptionServlet extends HttpServlet {
+@WebServlet(CompteServlet.COMPTE_URL)
+public class CompteServlet extends HttpServlet {
 	
 	/**
-	 * L'URL de l'inscription
+	 * L'URL de compte
 	 */
-	public static final String INSCRIPTION_URL = "/inscription";
+	public static final String COMPTE_URL = "/compte";
 	
 	private static final long serialVersionUID = 1L;
     
@@ -33,10 +31,11 @@ public class InscriptionServlet extends HttpServlet {
         DaoFactory daoFactory = DaoFactory.getInstance();
         this.joueurDao = daoFactory.getUtilisateurDao();
     }
+	
     /**
      * @see HttpServlet#HttpServlet()
      */
-    public InscriptionServlet() {
+    public CompteServlet() {
         super();
         // TODO Auto-generated constructor stub
     }
@@ -46,7 +45,16 @@ public class InscriptionServlet extends HttpServlet {
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
-		request.getRequestDispatcher("/WEB-INF/inscription.jsp").forward(request, response);
+		HttpSession session = request.getSession();
+		int bucks = 0;
+		try {
+			bucks = joueurDao.getBucks((String) session.getAttribute("nomSession"));
+		} catch (DaoException e) {
+			// TODO Auto-generated catch block
+			request.setAttribute("erreur", e.getMessage());
+		}
+		request.setAttribute("bucks", bucks);
+		request.getRequestDispatcher("/WEB-INF/compte.jsp").forward(request, response);
 	}
 
 	/**
@@ -54,21 +62,6 @@ public class InscriptionServlet extends HttpServlet {
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
-		InscriptionForm form = new InscriptionForm(joueurDao);
-		
-		try {
-			form.inscription(request);
-			
-			if (form.getResultat() != null) {
-				HttpSession session = request.getSession();
-		        session.setAttribute("nomSession", request.getParameter("nom"));
-			}
-		} catch (BeanException e) {
-			request.setAttribute("erreur", e.getMessage());;
-		}
-	
-		
-		request.setAttribute("form",form);
 		doGet(request, response);
 	}
 

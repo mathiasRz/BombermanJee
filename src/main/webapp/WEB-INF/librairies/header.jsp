@@ -4,6 +4,8 @@
 <%@ page import="Servlet.DeconnexionServlet" %>
 <%@ page import="Servlet.ConnexionServlet" %>
 <%@ page import="Servlet.InscriptionServlet" %>
+<%@ page import="Servlet.BoutiqueServlet" %>
+<%@ page import="Servlet.CompteServlet" %>
 
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -25,8 +27,16 @@
   /* Add a gray background color and some padding to the footer */
   footer {
     background-color: #f2f2f2;
+    
+    margin-top: 30%;
     padding: 25px;
   }
+  
+  .form {
+    margin-left: auto;
+    margin-right: auto;
+    width: 100px
+}
 </style>
 
 <header>
@@ -38,16 +48,16 @@
 	        <span class="icon-bar"></span>
 	        <span class="icon-bar"></span>                        
 	      </button>
-	      <a class="navbar-brand" href="#">Bomberman</a>
+	      <div class="navbar-brand"><img src="images/bombe.png" style="height :25px;widht :30px;" alt="bombe"></div>
 	    </div>
 	    <div class="collapse navbar-collapse" id="myNavbar">
 	      <ul class="nav navbar-nav">
 	        <li class="active"><a href="<c:url value="${AccueilServlet.ACCUEIL_URL}"/>">Accueil</a></li>
-	        <li><a href="#">Boutique</a></li>
+	        <li><a href="<c:url value="${BoutiqueServlet.BOUTIQUE_URL}"/>"><span class="glyphicon glyphicon-shopping-cart"></span> Boutique</a></li>
 	      </ul>
 	      <c:if test="${ !empty sessionScope.nomSession }">
 		      <ul class="nav navbar-nav navbar-right">
-		        <li><a href="#"><span class="glyphicon glyphicon-user"></span> Votre compte</a></li>
+		        <li><a href="<c:url value="${CompteServlet.COMPTE_URL}"/>"><span class="glyphicon glyphicon-user"></span> Votre compte</a></li>
 		        <li><a href="<c:url value="${DeconnexionServlet.DECONNEXION_URL}"/>"><span class="glyphicon glyphicon-log-out"></span> Se déconnecter</a></li>
 		      </ul>
 	    </c:if>

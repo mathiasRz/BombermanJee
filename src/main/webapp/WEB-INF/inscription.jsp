@@ -4,31 +4,33 @@
 <html>
 	<head>
 		<meta charset="UTF-8">
-		<title>Inscription</title>
+		<title>inscription</title>
 	</head>
 	<body>
 	<c:import url="/WEB-INF/librairies/header.jsp"/>
-		<c:if test="${ !empty erreur }"><p style="color:red;"><c:out value="${ erreur }" /></p></c:if>
+		<c:if test="${ !empty erreur }"><h1 style="color:red;text-align: center;"><c:out value="${ erreur }" /></h1></c:if>
 		<c:if test ="${ empty form.resultat }">
+		  <div class="form">
 			<form method="post" action="<c:url value="${InscriptionServlet.INSCRIPTION_URL}"/>">
 				<div>
-				    <label for="nom">Entrez un pseudo : </label>
-				    <input type="text" name="nom" id="nom" required>
+				    <input type="text" name="nom" id="nom" placeholder="identifiant" required>
 			  	</div>
+			  	<br/>
 			  	<div>
-				    <label for="nom">Entrez un mot de passe : </label>
-				    <input type="password" name="mdp" id="mdp" required>
+				    <input type="password" name="mdp" id="mdp" placeholder="mot de passe" required>
 			  	</div>
+			  	<br/>
 			  	<div>
-				    <label for="nom">Entrez Votre nationalité : </label>
-				    <input type="text" name="pays" id="pays" required>
+				    <input type="text" name="pays" id="pays" placeholder="nationalité" required>
 			  	</div>
+			  	<br/>
 			  	<div>
 				    <input type="submit" name="valider" id="valider" value="valider">
 			  	</div>
 			</form>
+		  </div>
 		</c:if>
-		<c:if test ="${ !empty form.resultat }"><p><c:out value="${ form.resultat }"/> </p></c:if>
+		<c:if test ="${ !empty form.resultat }"><h1 style="text-align: center;"><c:out value="${ form.resultat }"/> </h1></c:if>
 		<c:import url="/WEB-INF/librairies/footer.jsp"/>
 	</body>
 	

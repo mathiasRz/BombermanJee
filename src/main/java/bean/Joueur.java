@@ -5,15 +5,13 @@ public class Joueur {
 	private String nom;
 	private String mdp;
 	private String pays;
-	private int nb_parties;
-	private int nb_parties_win;
+	private int nb_bucks;
 	
-	public Joueur(String nom, String mdp, String pays, int nb_parties, int nb_parties_win) {
+	public Joueur(String nom, String mdp, String pays, int nb_bucks) {
 		this.nom = nom;
 		this.mdp = mdp;
 		this.pays = pays;
-		this.nb_parties = nb_parties;
-		this.nb_parties_win = nb_parties_win;
+		this.nb_bucks = nb_bucks;
 	}
 	
 	public String getNom() {
@@ -34,17 +32,11 @@ public class Joueur {
 	public void setPays(String pays) {
 		this.pays = pays;
 	}
-	public int getNb_parties() {
-		return nb_parties;
+	public int getNb_bucks() {
+		return nb_bucks;
 	}
-	public void setNb_parties(int nb_parties) {
-		this.nb_parties = nb_parties;
-	}
-	public int getNb_parties_win() {
-		return nb_parties_win;
-	}
-	public void setNb_parties_win(int nb_parties_win) {
-		this.nb_parties_win = nb_parties_win;
+	public void setNb_bucks(int nb_bucks) {
+		this.nb_bucks = nb_bucks;
 	}
 	
 	

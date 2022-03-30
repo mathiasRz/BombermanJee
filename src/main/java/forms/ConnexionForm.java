@@ -15,7 +15,7 @@ public class ConnexionForm {
 		this.joueurDao=joueurDao;
 	}
 
-	public void verifierIdenfiant( HttpServletRequest request) throws BeanException {
+	public void verifierIdenfiant(HttpServletRequest request) throws BeanException {
 		String nom = request.getParameter("nom");
 		String mdp = request.getParameter("mdp");
 		
@@ -23,16 +23,15 @@ public class ConnexionForm {
 			if (!joueurDao.verifierLogin(nom, mdp)) {
 				throw new BeanException("identifiants incorrects, veuillez réessayer !");
 			}
+			resultat = " vous êtes connectés !";
 		} catch (DaoException e) {
 			// TODO Auto-generated catch block
 			request.setAttribute("erreur",e.getMessage());
 		}
 		
 		
-		resultat = " vous êtes connectés !";
-		
-		
 	}
+	
 	public String getResultat() {
 		return resultat;
 	}

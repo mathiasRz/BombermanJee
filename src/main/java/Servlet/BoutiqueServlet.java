@@ -12,31 +12,33 @@ import bean.BeanException;
 import dao.DaoException;
 import dao.DaoFactory;
 import dao.JoueurDao;
+import forms.AchatForm;
 import forms.InscriptionForm;
 
 /**
- * Servlet implementation class InscriptionServlet
+ * Servlet implementation class Boutique
  */
-@WebServlet(InscriptionServlet.INSCRIPTION_URL)
-public class InscriptionServlet extends HttpServlet {
+@WebServlet(BoutiqueServlet.BOUTIQUE_URL)
+public class BoutiqueServlet extends HttpServlet {
 	
 	/**
-	 * L'URL de l'inscription
+	 * L'URL de l'accueil
 	 */
-	public static final String INSCRIPTION_URL = "/inscription";
+	public static final String BOUTIQUE_URL = "/boutique";
 	
 	private static final long serialVersionUID = 1L;
-    
+	
 	private JoueurDao joueurDao;
 
     public void init() throws ServletException {
         DaoFactory daoFactory = DaoFactory.getInstance();
         this.joueurDao = daoFactory.getUtilisateurDao();
     }
+       
     /**
      * @see HttpServlet#HttpServlet()
      */
-    public InscriptionServlet() {
+    public BoutiqueServlet() {
         super();
         // TODO Auto-generated constructor stub
     }
@@ -46,7 +48,23 @@ public class InscriptionServlet extends HttpServlet {
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
-		request.getRequestDispatcher("/WEB-INF/inscription.jsp").forward(request, response);
+		HttpSession session = request.getSession();
+		if (session.getAttribute("nomSession") != null) { 
+			int[] skins = new int[9];
+			int bucks = 0;
+			try {
+				skins = joueurDao.getSkins((String) session.getAttribute("nomSession"));
+				bucks = joueurDao.getBucks((String) session.getAttribute("nomSession"));
+			} catch (DaoException e) {
+				// TODO Auto-generated catch block
+				request.setAttribute("erreur", e.getMessage());
+			}
+			
+			
+			request.setAttribute("skins", skins);
+			request.setAttribute("bucks", bucks);
+		}
+		request.getRequestDispatcher("/WEB-INF/boutique.jsp").forward(request, response);
 	}
 
 	/**
@@ -54,19 +72,16 @@ public class InscriptionServlet extends HttpServlet {
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
-		InscriptionForm form = new InscriptionForm(joueurDao);
+		HttpSession session = request.getSession();
+		
+		AchatForm form = new AchatForm(joueurDao);
 		
 		try {
-			form.inscription(request);
-			
-			if (form.getResultat() != null) {
-				HttpSession session = request.getSession();
-		        session.setAttribute("nomSession", request.getParameter("nom"));
-			}
-		} catch (BeanException e) {
-			request.setAttribute("erreur", e.getMessage());;
-		}
-	
+			form.achat(request, (String) session.getAttribute("nomSession"));
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			request.setAttribute("erreur", e.getMessage());
+		} 
 		
 		request.setAttribute("form",form);
 		doGet(request, response);
